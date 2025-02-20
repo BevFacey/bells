@@ -1,6 +1,6 @@
 # pip install playsound@git+https://github.com/taconi/playsound
 
-from datetime import datetime, time
+from datetime import datetime
 import schedule
 import time as time_module
 from playsound import playsound
@@ -12,6 +12,13 @@ def ring_bell(sound_file="bell.mp3"):
         #print(f"Bell rung at {datetime.now().strftime('%H:%M:%S')}")
     except Exception as e:
         print(f"Error playing bell sound: {str(e)}")
+
+# Define dates to skip (e.g. holidays)
+# maybe this should be an online file that we fetch from Google Sheets every day at 6:00 am
+# we could also have a sheet that has custom bell schedules for special days
+dates_to_skip = [
+    '2025-02-21',  # Labor Day
+]
 
 # Define bell times (24-hour format)
 bell_times = [
@@ -54,7 +61,11 @@ for hour, minute in wednesday_bell_times:
 try:
     print("Bell scheduler is running. Press Ctrl+C to stop.")
     while True:
-        schedule.run_pending()
+        today_str = datetime.now().strftime('%Y-%m-%d')
+        if today_str in dates_to_skip:
+            time_module.sleep(60)
+        else:
+            schedule.run_pending()
         time_module.sleep(1)    
 except KeyboardInterrupt:
     print("\nShutting down bell scheduler...")
