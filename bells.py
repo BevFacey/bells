@@ -1,3 +1,5 @@
+# pip install playsound@git+https://github.com/taconi/playsound
+
 from datetime import datetime, time
 import schedule
 import time as time_module
@@ -7,10 +9,9 @@ def ring_bell(sound_file="bell.mp3"):
     """Play the bell sound"""
     try:
         playsound(sound_file)
-        print(f"Bell rung at {datetime.now().strftime('%H:%M:%S')}")
+        #print(f"Bell rung at {datetime.now().strftime('%H:%M:%S')}")
     except Exception as e:
         print(f"Error playing bell sound: {str(e)}")
-
 
 # Define bell times (24-hour format)
 bell_times = [
